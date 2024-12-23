@@ -86,16 +86,22 @@ class FullProcess:
             with col1:
                 relative_x = st.slider(f"Text Overlay X Position {num} (0-1)", 0.0, 1.0, 0.5, step=0.05, key=f"relative_x{num}")
             with col2:
-                relative_y = st.slider(f"Text Overlay Y Position {num} (0-1)", 0.0, 1.0, 0.3 + (num - 1) * 0.1, step=0.05, key=f"relative_y{num}")
+                relative_y = st.slider(f"Text Overlay Y Position {num} (0-1)", 0.0, 1.0, 0.3, step=0.05, key=f"relative_y{num}")
 
+            col1, col2 = st.columns(2)
+            with col1:
+                text_start_time = st.slider(f"Text start time {num} (0-10)", 0.0, 10.0, 2.0 , step=1.0, key=f"text_start_time{num}")
+            with col2:
+                text_duration = st.slider(f"Text duration {num} (0-10)", 0.0, 10.0, 2.0 , step=1.0, key=f"text_duration{num}")
+                
             # Text Input
             text_input = st.text_area(f"Enter Text to Overlay {num}", key=f"text_input{num}")
-            return text_input, font_size, color, relative_x, relative_y
+            return text_input, font_size, color, relative_x, relative_y, text_start_time, text_duration
 
-        text_input1, font_size1, color1, relative_x1, relative_y1 = get_text_overlay_input(1)
-        text_input2, font_size2, color2, relative_x2, relative_y2 = get_text_overlay_input(2)
-        text_input3, font_size3, color3, relative_x3, relative_y3 = get_text_overlay_input(3)
-        text_input4, font_size4, color4, relative_x4, relative_y4 = get_text_overlay_input(4)
+        text_input1, font_size1, color1, relative_x1, relative_y1, text_start_time1, text_duration1 = get_text_overlay_input(1)
+        text_input2, font_size2, color2, relative_x2, relative_y2, text_start_time2, text_duration2 = get_text_overlay_input(2)
+        text_input3, font_size3, color3, relative_x3, relative_y3, text_start_time3, text_duration3 = get_text_overlay_input(3)
+        text_input4, font_size4, color4, relative_x4, relative_y4, text_start_time4, text_duration4 = get_text_overlay_input(4)
 
         # Process Video Button
         if st.button("Process Video"):
@@ -141,22 +147,26 @@ class FullProcess:
                         text_overlay1 = (
                             TextClip(wrapped_text1, font_size=font_size1, color=color1, font=font_map.get(text_lang1))
                             .with_position((relative_x1, relative_y1), relative=True)
-                            .with_duration(video.duration)
+                            .with_start(text_start_time1)
+                            .with_duration(text_duration1)
                         )
                         text_overlay2 = (
                             TextClip(wrapped_text2, font_size=font_size2, color=color2, font=font_map.get(text_lang2))
                             .with_position((relative_x2, relative_y2), relative=True)
-                            .with_duration(video.duration)
+                            .with_start(text_start_time2)
+                            .with_duration(text_duration2)
                         )
                         text_overlay3 = (
                             TextClip(wrapped_text3, font_size=font_size3, color=color3, font=font_map.get(text_lang3))
                             .with_position((relative_x3, relative_y3), relative=True)
-                            .with_duration(video.duration)
+                            .with_start(text_start_time3)
+                            .with_duration(text_duration3)
                         )
                         text_overlay4 = (
                             TextClip(wrapped_text4, font_size=font_size4, color=color4, font=font_map.get(text_lang4))
                             .with_position((relative_x4, relative_y4), relative=True)
-                            .with_duration(video.duration)
+                            .with_start(text_start_time4)
+                            .with_duration(text_duration4)
                         )
 
                         # Combine the video with overlays
@@ -178,7 +188,14 @@ class FullProcess:
 
                         # Offer download
                         with open(processed_video_path, "rb") as f:
-                            st.download_button("Download Processed Video", f, file_name="processed_video.mp4", mime="video/mp4")
+                            st.download_button(
+                                label="Download Processed Video",
+                                data=f,
+                                file_name=f"processed_video_{text_lang1}_{text_lang2}_{text_lang3}_{text_lang4}.mp4",
+                                mime="video/mp4",
+                                key=f"download_{text_lang1}_{text_lang2}_{text_lang3}_{text_lang4}"
+                            )
+
 
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
