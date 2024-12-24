@@ -113,7 +113,7 @@ class FullProcess:
                 with col1:
                     relative_x = st.slider(f"Text Overlay X Position {num} (0-1)", 0.0, 1.0, 0.5, step=0.05, key=f"relative_x{num}")
                 with col2:
-                    relative_y = st.slider(f"Text Overlay Y Position {num} (0-1)", 0.0, 1.0, 0.3, step=0.05, key=f"relative_y{num}")
+                    relative_y = st.slider(f"Text Overlay Y Position {num} (0-1)", 0.0, 1.0, 0.5, step=0.05, key=f"relative_y{num}")
 
                 col1, col2 = st.columns(2)
                 with col1:
