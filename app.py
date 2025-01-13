@@ -10,6 +10,9 @@ import os
 
 # Set Streamlit template directory
 template_dir = "temp_video"  # Replace with your actual path
+if not os.path.exists(template_dir):
+    # Create the directory if it doesn't exist
+    os.makedirs(template_dir)
 os.environ["STREAMLIT_STATIC_PATH"] = template_dir
 
 # Class Definition

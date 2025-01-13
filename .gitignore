@@ -13,3 +13,5 @@ __pycache__/subprocess.cpython-311.pyc
 /temp_video
 run_streamlit.py
 start_streamlit.py
+/output
+start_app.py
