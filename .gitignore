@@ -8,3 +8,8 @@ experiment.py
 /videopluxtext/cache
 /videopluxtext/tempCodeRunnerFile.py
 tempCodeRunnerFile.py
+__pycache__/subprocess.cpython-311.pyc
+/.idea
+/temp_video
+run_streamlit.py
+start_streamlit.py

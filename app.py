@@ -6,6 +6,11 @@ import tempfile
 from io import BytesIO
 import textwrap
 import asyncio
+import os
+
+# Set Streamlit template directory
+template_dir = "temp_video"  # Replace with your actual path
+os.environ["STREAMLIT_STATIC_PATH"] = template_dir
 
 # Class Definition
 class FullProcess:
@@ -142,7 +147,7 @@ class FullProcess:
                     try:
                         self.initialize_pipeline()
 
-                        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as temp_file:
+                        with tempfile.NamedTemporaryFile(delete=False, dir=template_dir, suffix=".mp4") as temp_file:
                             temp_file.write(uploaded_file.read())
                             temp_file_path = temp_file.name
 
